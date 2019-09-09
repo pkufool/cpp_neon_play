@@ -1,0 +1,5 @@
+neon_sum,Array Sum
+neon_product,Dot Product
+neon_maximum,Maximum Element
+neon_minimum,Minimum Element
+neon_addvecvec,AddVecVec
