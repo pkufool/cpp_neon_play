@@ -52,3 +52,7 @@ You can custom your server with:
 All the examples are listed in the codelab folder with `.cc` extension, `codelab.txt` is a text file lists the file names and display labels.
 * [Array Sum]()
 * [Dot Product]()
+* [Maximum Element]()
+* [Minimum Element]()
+* [AddVecVec]()
+
