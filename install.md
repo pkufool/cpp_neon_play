@@ -1,7 +1,7 @@
 ## qemu
 
 ```
-sudo apt-get install autoconf automake autotools-dev ninja-build
+sudo apt-get install autoconf automake autotools-dev ninja-build pkg-config libglib2.0
 git clone https://github.com/qemu/qemu.git
 cd qemu
 mkdir build
