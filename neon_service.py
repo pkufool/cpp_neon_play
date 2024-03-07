@@ -33,7 +33,7 @@ def run():
   ofile.flush()
   os.fsync(ofile.fileno())
   ofile.close()
-  cmd = "g++ -std=c++11 -mfloat-abi=softfp -mfpu=neon " + fname + ".cc -o " + fname
+  cmd = "aarch64-linux-gnu-g++ -std=c++11 " + fname + ".cc -o " + fname
   if not args.neon:
     cmd = "g++ -std=c++11 " + fname + ".cc -o " + fname
   p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
@@ -43,8 +43,10 @@ def run():
     result['status'] = "fail"
     os.system("rm " + fname + ".cc")
     return jsonify(result)
-  cmd = "./" + fname
-  p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE, preexec_fn=set_process_rlimits)
+  cmd = "qemu-aarch64 ./" + fname
+  if not args.neon:
+    cmd = "./" + fname
+  p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE) #, preexec_fn=set_process_rlimits)
   try:
     rstdout, rstderr = p.communicate(timeout=args.timeout)
   except TimeoutExpired:
@@ -78,7 +80,7 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument("-p", "--port", type=int, help="server port number", default=8880)
   parser.add_argument("-n", "--neon", type=int, help="wether to use neon instruments", default=1)
-  parser.add_argument("-m", "--memory", type=int, help="max memory use in bytes", default=52428800)
+  parser.add_argument("-m", "--memory", type=int, help="max memory use in bytes", default=52428816)
   parser.add_argument("-t", "--timeout", type=int, help="running timeout in seconds", default=20)
   args = parser.parse_args()
   app.run(host='0.0.0.0', port=args.port)
